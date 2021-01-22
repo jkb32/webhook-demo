@@ -1,12 +1,25 @@
 import * as express from 'express';
-import * as amqp from 'amqplib';
+import { MongoClient } from 'mongodb';
+import { environment } from './environments/environment';
 
 const app = express();
 
-amqp.connect('amqp://localhost', function(error0, connection) {});
+const USERNAME = environment.mongo.user;
+const PASSWORD = environment.mongo.password;
+const URL = environment.mongo.url;
 
-app.get('/api', (req, res) => {
-  res.send({ message: 'Welcome to subscribe-service!' });
+
+const client = new MongoClient(`mongodb://${USERNAME}:${PASSWORD}@${URL}/webhooks?retryWrites=true&w=majority`);
+
+app.post('/subscribe', async ({ body }, res) => {
+
+  await client.connect();
+
+  const webhooks_database = await client.db();
+
+  console.log("Databases:", webhooks_database.databaseName);
+
+  res.send({ message: 'Welcome to subscribe-service!. Connected to ' + webhooks_database.databaseName });
 });
 
 const port = process.env.port || 3333;

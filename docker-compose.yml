@@ -30,10 +30,12 @@ services:
     image: mongo:latest
     container_name: mongodb
     environment:
-      -  'MONGODB_USER=user'
-      -  'MONGODB_PASS=password!'
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: webhooks
     volumes:
-      - 'mongodb-data:/data/db'
+      - mongodb-data:/data/db
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
     command: mongod
   rabbitmq:
     image: 'rabbitmq:3-management'
