@@ -1,31 +1,6 @@
 version: '2'
 
 services:
-  api-gateway:
-    build:
-      context: .
-      dockerfile: apps/api-gateway/Dockerfile
-    container_name: api-gateway
-    ports:
-      - '3333:3333'
-    depends_on:
-      - subscribe-service
-      - webhook-sender
-  subscribe-service:
-    build:
-      context: .
-      dockerfile: apps/subscribe-service/Dockerfile
-    container_name: subscribe-service
-    depends_on:
-      - mongodb
-  webhook-sender:
-    build:
-      context: .
-      dockerfile: apps/webhook-sender/Dockerfile
-    container_name: webhook-sender
-    depends_on:
-      - mongodb
-      - rabbitmq
   mongodb:
     image: mongo:latest
     container_name: mongodb
@@ -34,6 +9,8 @@ services:
       -  'MONGODB_PASS=password!'
     volumes:
       - 'mongodb-data:/data/db'
+    ports:
+      - '27017:27017'
     command: mongod
   rabbitmq:
     image: 'rabbitmq:3-management'
@@ -44,6 +21,9 @@ services:
       RABBITMQ_DEFAULT_USER: 'rabbitmq'
       RABBITMQ_DEFAULT_PASS: 'rabbitmq'
       RABBITMQ_DEFAULT_VHOST: '/'
+    ports:
+      - '15672:15672'
+      - '5672:5672'
     labels:
       NAME: 'rabbitmq'
       #volumes:
