@@ -7,21 +7,17 @@ services:
       dockerfile: apps/api-gateway/Dockerfile
     container_name: api-gateway
     ports:
-      - '3334:3333'
+      - '3333:3333'
   subscribe-service:
     build:
       context: .
       dockerfile: apps/subscribe-service/Dockerfile
     container_name: subscribe-service
-    ports:
-      - '3335:3333'
   webhook-sender:
     build:
       context: .
       dockerfile: apps/webhook-sender/Dockerfile
     container_name: webhook-sender
-    ports:
-      - '3336:3333'
   mongodb:
     image: mongo:latest
     container_name: mongodb

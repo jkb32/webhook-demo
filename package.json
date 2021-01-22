@@ -28,6 +28,7 @@
   "private": true,
   "dependencies": {
     "amqplib": "^0.6.0",
+    "axios": "^0.21.1",
     "express": "4.17.1",
     "tslib": "^2.0.0"
   },
