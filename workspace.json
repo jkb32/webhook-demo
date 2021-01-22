@@ -1,0 +1,186 @@
+{
+  "version": 2,
+  "projects": {
+    "api-gateway": {
+      "root": "apps/api-gateway",
+      "sourceRoot": "apps/api-gateway/src",
+      "projectType": "application",
+      "prefix": "api-gateway",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/apps/api-gateway",
+            "main": "apps/api-gateway/src/main.ts",
+            "tsConfig": "apps/api-gateway/tsconfig.app.json",
+            "assets": [
+              "apps/api-gateway/src/assets"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/api-gateway/src/environments/environment.ts",
+                  "with": "apps/api-gateway/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "api-gateway:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/api-gateway/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/apps/api-gateway"
+          ],
+          "options": {
+            "jestConfig": "apps/api-gateway/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "subscribe-service": {
+      "root": "apps/subscribe-service",
+      "sourceRoot": "apps/subscribe-service/src",
+      "projectType": "application",
+      "prefix": "subscribe-service",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/apps/subscribe-service",
+            "main": "apps/subscribe-service/src/main.ts",
+            "tsConfig": "apps/subscribe-service/tsconfig.app.json",
+            "assets": [
+              "apps/subscribe-service/src/assets"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/subscribe-service/src/environments/environment.ts",
+                  "with": "apps/subscribe-service/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "subscribe-service:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/subscribe-service/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/apps/subscribe-service"
+          ],
+          "options": {
+            "jestConfig": "apps/subscribe-service/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "webhook-sender": {
+      "root": "apps/webhook-sender",
+      "sourceRoot": "apps/webhook-sender/src",
+      "projectType": "application",
+      "prefix": "webhook-sender",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/apps/webhook-sender",
+            "main": "apps/webhook-sender/src/main.ts",
+            "tsConfig": "apps/webhook-sender/tsconfig.app.json",
+            "assets": [
+              "apps/webhook-sender/src/assets"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/webhook-sender/src/environments/environment.ts",
+                  "with": "apps/webhook-sender/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "webhook-sender:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/webhook-sender/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/apps/webhook-sender"
+          ],
+          "options": {
+            "jestConfig": "apps/webhook-sender/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/express"
+  },
+  "defaultProject": "api-gateway"
+}
