@@ -1,26 +1,46 @@
 import * as express from 'express';
-import { MongoClient } from 'mongodb';
-import { environment } from './environments/environment';
+import { MongoService } from './app/mongodb.service';
 
 const app = express();
+app.use(express.json());
 
-const USERNAME = environment.mongo.user;
-const PASSWORD = environment.mongo.password;
-const URL = environment.mongo.url;
+const mongoService = new MongoService();
 
+app.post('/subscribe', async (req, res) => {
+  const body = req.body;
+  const result = await mongoService.addSubscriptions({
+    url: body.url,
+    secret: body.secret
+  });
 
-const client = new MongoClient(`mongodb://${USERNAME}:${PASSWORD}@${URL}/webhooks?retryWrites=true&w=majority`);
+  console.log("%s", result);
 
-app.post('/subscribe', async ({ body }, res) => {
-
-  await client.connect();
-
-  const webhooks_database = await client.db();
-
-  console.log("Databases:", webhooks_database.databaseName);
-
-  res.send({ message: 'Welcome to subscribe-service!. Connected to ' + webhooks_database.databaseName });
+  res.send(result);
 });
+
+
+app.get('/subscribe', async (req, res) => {
+  const url = req.query.url as string;
+  const result = await mongoService.find(url);
+
+  console.log("%s", result);
+
+  res.send(result);
+});
+
+
+app.delete('/subscribe', async (req, res) => {
+  const url = req.query.url as string;
+  const result = await mongoService.removeSubscription(url);
+
+  console.log("%s", result);
+
+  res.send(result);
+});
+
+
+
+
 
 const port = process.env.port || 3333;
 const server = app.listen(port, () => {

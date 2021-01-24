@@ -13,7 +13,7 @@ services:
       - 27017:27017
     volumes:
       - .mongo/:/data/db
-      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - .docker/mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
   rabbitmq:
 #    image: rabbitmq:3.8
     build:
@@ -27,8 +27,8 @@ services:
       RABBITMQ_DEFAULT_PASS: 'rabbitmq'
       RABBITMQ_DEFAULT_VHOST: '/'
     ports:
-      - '15672:15672'
-      - '5672:5672'
+      - 15672:15672
+      - 5672:5672
     labels:
       NAME: 'rabbitmq'
     #volumes:

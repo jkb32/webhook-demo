@@ -3,6 +3,7 @@ export const environment = {
   mongo: {
     user: 'dev_user',
     password: 'dev_password',
-    url: 'localhost:27017'
+    hostname: 'localhost',
+    port: '27017'
   }
 };
