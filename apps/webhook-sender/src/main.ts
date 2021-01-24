@@ -15,6 +15,7 @@ app.get('/api', (req, res) => {
 });
 
 const opt = amqp.credentials.plain('rabbitmq', 'rabbitmq');
+
 amqp.connect(
   {
     hostname: environment.rabbitMQ.hostname,
@@ -31,14 +32,18 @@ amqp.connect(
         throw error1;
       }
 
-      const queue = 'webhooks';
+      channel.assertExchange('webhooks-exchange', 'x-delayed-message', { durable: true, arguments: { 'x-delayed-type': 'direct' } });
+      channel.assertQueue('webhooks', { durable: true })
+
+      channel.bindQueue('webhooks', 'webhooks-exchange', 'queueBinding');
 
       console.log(
         ' [*] Waiting for messages in %s. To exit press CTRL+C',
-        queue
+        'webhooks'
       );
+
       channel.consume(
-        queue,
+        'webhooks',
         function (msg) {
           console.log(' [x] Received %s', msg.content.toString());
         },
@@ -68,18 +73,12 @@ app.get('/trigger', (req, res) => {
           throw error1;
         }
 
-        const queue = 'webhooks';
-
         const msg: WebhookMessage = {
           message: `Hello, world! ${Date.now()}`,
           timestamp: Date.now(),
         };
 
-        channel.assertQueue(queue, {
-          durable: false,
-        });
-
-        channel.sendToQueue(queue, Buffer.from(JSON.stringify(msg)));
+        channel.publish('webhooks-exchange', 'queueBinding', Buffer.from(JSON.stringify(msg)), { headers: { 'x-delay': 2000 }});
 
         console.log(' [x] Sent %s', msg);
         res.send({
