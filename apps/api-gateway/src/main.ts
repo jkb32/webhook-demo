@@ -1,12 +1,13 @@
-/**
- * This is not a production server yet!
- * This is only a minimal backend to get started.
- */
-
 import * as express from 'express';
+import subscriptionRouter from './app/routers/subscription-router';
 import axios from 'axios';
 
 const app = express();
+
+// Body parser configuration
+app.use(express.json());
+
+app.use('/subscriptions', subscriptionRouter);
 
 app.get('/api', (req, res) => {
   Promise.all([
