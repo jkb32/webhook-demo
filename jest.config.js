@@ -3,5 +3,6 @@ module.exports = {
     '<rootDir>/apps/api-gateway',
     '<rootDir>/apps/subscribe-service',
     '<rootDir>/apps/webhook-sender',
+    '<rootDir>/libs/interfaces',
   ],
 };

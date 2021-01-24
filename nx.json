@@ -18,6 +18,7 @@
   "projects": {
     "api-gateway": { "tags": [] },
     "subscribe-service": { "tags": [] },
-    "webhook-sender": { "tags": [] }
+    "webhook-sender": { "tags": [] },
+    "interfaces": { "tags": [] }
   }
 }

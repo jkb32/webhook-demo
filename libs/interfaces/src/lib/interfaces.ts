@@ -5,3 +5,8 @@ export interface SubscriptionSchema {
   url: string;
   secret: string;
 }
+
+export interface WebhookMessage {
+  message: string,
+  timestamp: number
+}
