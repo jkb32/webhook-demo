@@ -1,8 +1,11 @@
 module.exports = {
   projects: [
-    '<rootDir>/apps/api-gateway',
-    '<rootDir>/apps/subscribe-service',
+    '<rootDir>/apps/gateway-api',
+    '<rootDir>/apps/subscription-manager',
     '<rootDir>/apps/webhook-sender',
     '<rootDir>/libs/interfaces',
+    '<rootDir>/libs/queue-config',
+    '<rootDir>/libs/queue',
+    '<rootDir>/libs/mongodb',
   ],
 };

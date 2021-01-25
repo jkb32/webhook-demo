@@ -1,21 +1,17 @@
-import { TriggerDto } from '@webhook-demo/interfaces';
-import { Channel, Message } from 'amqplib/callback_api';
-import { environment } from '../../environments/environment';
-import WebhookService from '../services/webhook.service';
-
-const {
-  queues,
-  exchanges,
-  maxDelayInSeconds,
-  routingKeys,
-} = environment.rabbitMQ;
+import { queueConfig } from '@webhook-sender/queue';
+import { TriggerDto } from '@webhook-sender/interfaces';
+import SenderService from '../services/sender.service';
+import * as amqp from 'amqplib/callback_api';
+import { AxiosError } from 'axios';
 
 const SECONDS_TO_MILISECONDS = 1000;
 
+const { queues, bindings } = queueConfig;
+
 class TriggerController {
-  constructor(private channel: Channel) {
+  constructor(private channel: amqp.Channel) {
     channel.consume(
-      queues.managerTrigger,
+      queues.webhookTriggers.name,
       (message) => {
         this.handleTrigger(message);
       },
@@ -23,24 +19,30 @@ class TriggerController {
         noAck: false,
       }
     );
+
+    console.log(
+      `TriggerController listening for queue: ${queues.webhookTriggers.name}.`
+    );
   }
 
-  public async handleTrigger(message: Message) {
+  private async handleTrigger(message: amqp.Message) {
     const trigger: TriggerDto = JSON.parse(message.content.toString());
 
-    await WebhookService.sendWebhook(trigger)
-      .then(() => {
-        console.log(`Message delivered to: ${trigger.subscription.url}`);
-      })
-      .catch((err) => {
+    await SenderService.sendWebhook(trigger)
+      .then(() =>
+        console.log(`Message delivered to: ${trigger.subscription.url}`)
+      )
+      .catch((err: AxiosError) => {
         const newDelayInSec = this.calculateDelay(trigger.delaySec);
+
+        console.error(err.message);
         console.error(
-          `Message failed to deliver on ${trigger.subscription.url}, changed delay from ${trigger.delaySec} to ${newDelayInSec}`
+          `Message failed to deliver message to url: ${trigger.subscription.url}, changed delay from ${trigger.delaySec} to ${newDelayInSec}`
         );
 
         this.channel.publish(
-          exchanges.delayed,
-          routingKeys.managerTrigger,
+          bindings.webhookTriggers.exchange,
+          bindings.webhookTriggers.routingKey,
           Buffer.from(
             JSON.stringify({
               ...trigger,
@@ -55,6 +57,7 @@ class TriggerController {
   }
 
   private calculateDelay(delay: number): number {
+    const maxDelayInSeconds = Number(process.env.MAX_DELAY_IN_SECONDS) || 600;
     return delay * 2 > maxDelayInSeconds ? maxDelayInSeconds : delay * 2;
   }
 }

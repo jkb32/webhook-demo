@@ -5,7 +5,7 @@ COPY package-lock.json /usr/src/app
 COPY package.json /usr/src/app
 RUN npm ci --only=prod
 RUN npm i ts-node typescript tslib
-COPY dist/apps/webhook-sender /usr/src/app
+COPY dist/apps/subscription-manager /usr/src/app
 
 EXPOSE 80
 ENTRYPOINT ["node", "./main.js"]

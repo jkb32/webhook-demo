@@ -1,24 +1,19 @@
 {
   "version": 2,
   "projects": {
-    "api-gateway": {
-      "root": "apps/api-gateway",
-      "sourceRoot": "apps/api-gateway/src",
+    "gateway-api": {
+      "root": "apps/gateway-api",
+      "sourceRoot": "apps/gateway-api/src",
       "projectType": "application",
-      "prefix": "api-gateway",
+      "prefix": "gateway-api",
       "targets": {
         "build": {
           "executor": "@nrwl/node:build",
-          "outputs": [
-            "{options.outputPath}"
-          ],
+          "outputs": ["{options.outputPath}"],
           "options": {
-            "outputPath": "dist/apps/api-gateway",
-            "main": "apps/api-gateway/src/main.ts",
-            "tsConfig": "apps/api-gateway/tsconfig.app.json",
-            "assets": [
-              "apps/api-gateway/src/assets"
-            ]
+            "outputPath": "dist/apps/gateway-api",
+            "main": "apps/gateway-api/src/main.ts",
+            "tsConfig": "apps/gateway-api/tsconfig.app.json"
           },
           "configurations": {
             "production": {
@@ -27,8 +22,8 @@
               "inspect": false,
               "fileReplacements": [
                 {
-                  "replace": "apps/api-gateway/src/environments/environment.ts",
-                  "with": "apps/api-gateway/src/environments/environment.prod.ts"
+                  "replace": "apps/gateway-api/src/environments/environment.ts",
+                  "with": "apps/gateway-api/src/environments/environment.prod.ts"
                 }
               ]
             }
@@ -37,47 +32,38 @@
         "serve": {
           "executor": "@nrwl/node:execute",
           "options": {
-            "buildTarget": "api-gateway:build"
+            "buildTarget": "gateway-api:build"
           }
         },
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "apps/api-gateway/**/*.ts"
-            ]
+            "lintFilePatterns": ["apps/gateway-api/**/*.ts"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/apps/api-gateway"
-          ],
+          "outputs": ["coverage/apps/gateway-api"],
           "options": {
-            "jestConfig": "apps/api-gateway/jest.config.js",
+            "jestConfig": "apps/gateway-api/jest.config.js",
             "passWithNoTests": true
           }
         }
       }
     },
-    "subscribe-service": {
-      "root": "apps/subscribe-service",
-      "sourceRoot": "apps/subscribe-service/src",
+    "subscription-manager": {
+      "root": "apps/subscription-manager",
+      "sourceRoot": "apps/subscription-manager/src",
       "projectType": "application",
-      "prefix": "subscribe-service",
+      "prefix": "subscription-manager",
       "targets": {
         "build": {
           "executor": "@nrwl/node:build",
-          "outputs": [
-            "{options.outputPath}"
-          ],
+          "outputs": ["{options.outputPath}"],
           "options": {
-            "outputPath": "dist/apps/subscribe-service",
-            "main": "apps/subscribe-service/src/main.ts",
-            "tsConfig": "apps/subscribe-service/tsconfig.app.json",
-            "assets": [
-              "apps/subscribe-service/src/assets"
-            ]
+            "outputPath": "dist/apps/subscription-manager",
+            "main": "apps/subscription-manager/src/main.ts",
+            "tsConfig": "apps/subscription-manager/tsconfig.app.json"
           },
           "configurations": {
             "production": {
@@ -86,8 +72,8 @@
               "inspect": false,
               "fileReplacements": [
                 {
-                  "replace": "apps/subscribe-service/src/environments/environment.ts",
-                  "with": "apps/subscribe-service/src/environments/environment.prod.ts"
+                  "replace": "apps/subscription-manager/src/environments/environment.ts",
+                  "with": "apps/subscription-manager/src/environments/environment.prod.ts"
                 }
               ]
             }
@@ -96,24 +82,20 @@
         "serve": {
           "executor": "@nrwl/node:execute",
           "options": {
-            "buildTarget": "subscribe-service:build"
+            "buildTarget": "subscription-manager:build"
           }
         },
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "apps/subscribe-service/**/*.ts"
-            ]
+            "lintFilePatterns": ["apps/subscription-manager/**/*.ts"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/apps/subscribe-service"
-          ],
+          "outputs": ["coverage/apps/subscription-manager"],
           "options": {
-            "jestConfig": "apps/subscribe-service/jest.config.js",
+            "jestConfig": "apps/subscription-manager/jest.config.js",
             "passWithNoTests": true
           }
         }
@@ -127,16 +109,11 @@
       "targets": {
         "build": {
           "executor": "@nrwl/node:build",
-          "outputs": [
-            "{options.outputPath}"
-          ],
+          "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/apps/webhook-sender",
             "main": "apps/webhook-sender/src/main.ts",
-            "tsConfig": "apps/webhook-sender/tsconfig.app.json",
-            "assets": [
-              "apps/webhook-sender/src/assets"
-            ]
+            "tsConfig": "apps/webhook-sender/tsconfig.app.json"
           },
           "configurations": {
             "production": {
@@ -161,16 +138,12 @@
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "apps/webhook-sender/**/*.ts"
-            ]
+            "lintFilePatterns": ["apps/webhook-sender/**/*.ts"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/apps/webhook-sender"
-          ],
+          "outputs": ["coverage/apps/webhook-sender"],
           "options": {
             "jestConfig": "apps/webhook-sender/jest.config.js",
             "passWithNoTests": true
@@ -186,18 +159,56 @@
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "libs/interfaces/**/*.ts"
-            ]
+            "lintFilePatterns": ["libs/interfaces/**/*.ts"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/libs/interfaces"
-          ],
+          "outputs": ["coverage/libs/interfaces"],
           "options": {
             "jestConfig": "libs/interfaces/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "queue": {
+      "root": "libs/queue",
+      "sourceRoot": "libs/queue/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/queue/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/queue"],
+          "options": {
+            "jestConfig": "libs/queue/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "mongodb": {
+      "root": "libs/mongodb",
+      "sourceRoot": "libs/mongodb/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/mongodb/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/mongodb"],
+          "options": {
+            "jestConfig": "libs/mongodb/jest.config.js",
             "passWithNoTests": true
           }
         }
@@ -205,7 +216,7 @@
     }
   },
   "cli": {
-    "defaultCollection": "@nrwl/express"
+    "defaultCollection": "@nrwl/node"
   },
-  "defaultProject": "api-gateway"
+  "defaultProject": "gateway-api"
 }

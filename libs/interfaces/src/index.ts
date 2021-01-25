@@ -1,2 +1,1 @@
-export * from './lib/mongo';
-export * from './lib/TriggerDto';
+export * from './lib/interfaces';

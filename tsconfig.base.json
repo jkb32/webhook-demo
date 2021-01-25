@@ -15,7 +15,10 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@webhook-demo/interfaces": ["libs/interfaces/src/index.ts"]
+      "@webhook-sender/interfaces": ["libs/interfaces/src/index.ts"],
+      "@webhook-sender/queue-config": ["libs/queue-config/src/index.ts"],
+      "@webhook-sender/queue": ["libs/queue/src/index.ts"],
+      "@webhook-sender/mongodb": ["libs/mongodb/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

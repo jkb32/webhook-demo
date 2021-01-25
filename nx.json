@@ -1,5 +1,5 @@
 {
-  "npmScope": "webhook-demo",
+  "npmScope": "webhook-sender",
   "affected": { "defaultBase": "master" },
   "implicitDependencies": {
     "workspace.json": "*",
@@ -16,9 +16,11 @@
     }
   },
   "projects": {
-    "api-gateway": { "tags": [] },
-    "subscribe-service": { "tags": [] },
+    "gateway-api": { "tags": [] },
+    "subscription-manager": { "tags": [] },
     "webhook-sender": { "tags": [] },
-    "interfaces": { "tags": [] }
+    "interfaces": { "tags": [] },
+    "queue": { "tags": [] },
+    "mongodb": { "tags": [] }
   }
 }
