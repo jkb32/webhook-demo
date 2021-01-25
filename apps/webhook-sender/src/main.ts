@@ -26,4 +26,5 @@ setupRabbitMQConnection()
   .catch((err) => {
     console.error(err);
     console.error('Failed to connect to RabbitMQ service.');
+    process.exit(1);
   });

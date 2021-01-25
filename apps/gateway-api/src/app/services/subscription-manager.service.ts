@@ -1,9 +1,10 @@
 import axios from 'axios';
 
-const baseUrl = process.env.SUBSCIPRION_MANAGER_URL || 'subscription-manager';
+const baseUrl = process.env.SUBSCRIPRION_MANAGER_URL || 'subscription-manager';
 
 export default class SubscriptionManagerService {
   static async healthCheck() {
+    console.log(`http://${baseUrl}/health-check`);
     return axios.get(`http://${baseUrl}/health-check`);
   }
 

@@ -1,6 +1,7 @@
 import { Cursor, Db, MongoClient } from 'mongodb';
 import { connectionConfig } from './config';
 import { SubscriptionSchema } from '@webhook-sender/interfaces';
+import { getConnection } from '@webhook-sender/queue';
 
 export class MongoService {
   private mongoClient: MongoClient;

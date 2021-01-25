@@ -1,10 +1,10 @@
 import * as express from 'express';
 import { MongoService } from '@webhook-sender/mongodb';
 
-class SubscriptionController {
+class RegisterController {
   private mongoService: MongoService;
   public router = express.Router();
-  public path = '/subscription';
+  public path = '/register';
 
   constructor() {
     this.mongoService = MongoService.get();
@@ -51,4 +51,4 @@ class SubscriptionController {
   };
 }
 
-export default SubscriptionController;
+export default RegisterController;

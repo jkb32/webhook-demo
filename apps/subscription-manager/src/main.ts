@@ -1,5 +1,5 @@
 import * as express from 'express';
-import SubscriptionController from './app/controllers/subscription-controller';
+import RegisterController from './app/controllers/subscription-controller';
 import { MongoService } from '@webhook-sender/mongodb';
 import { getChannel, setupRabbitMQConnection } from '@webhook-sender/queue';
 import TriggerController from './app/controllers/trigger.controller';
@@ -17,7 +17,7 @@ Promise.all([setupRabbitMQConnection(), mongoService.init()]).then(
   async ([connection]) => {
     const channel = await getChannel(connection);
 
-    app.use(new SubscriptionController().router);
+    app.use(new RegisterController().router);
     app.use(new TriggerController(channel).router);
 
     app.get('/health-check', (req, res) => {
@@ -30,4 +30,8 @@ Promise.all([setupRabbitMQConnection(), mongoService.init()]).then(
     });
     server.on('error', console.error);
   }
-);
+).catch((err) => {
+  console.error(err);
+  console.error('Startup failed.');
+  process.exit(1);
+});

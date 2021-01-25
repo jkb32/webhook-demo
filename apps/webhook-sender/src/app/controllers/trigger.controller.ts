@@ -37,7 +37,7 @@ class TriggerController {
 
         console.error(err.message);
         console.error(
-          `Message failed to deliver message to url: ${trigger.subscription.url}, changed delay from ${trigger.delaySec} to ${newDelayInSec}`
+          `Message failed to deliver message to url: ${trigger.subscription.url}, changed delay from ${trigger.delaySec} to ${newDelayInSec} seconds.`
         );
 
         this.channel.publish(
@@ -61,5 +61,4 @@ class TriggerController {
     return delay * 2 > maxDelayInSeconds ? maxDelayInSeconds : delay * 2;
   }
 }
-
 export default TriggerController;

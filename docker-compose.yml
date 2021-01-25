@@ -1,10 +1,45 @@
 version: '2'
 
 services:
-  monngodb:
+  gateway-api:
+    build:
+      context: .
+      dockerfile: apps/gateway-api/Dockerfile
+    container_name: gateway-api
+    ports:
+      - '80:80'
+    depends_on:
+      - subscription-manager
+      - webhook-sender
+    env_file:
+      - .env
+  subscription-manager:
+    build:
+      context: .
+      dockerfile: apps/subscription-manager/Dockerfile
+    container_name: subscription-manager
+    hostname: ${SUBSCRIPTION_MANAGER_URL}
+    restart: on-failure
+    depends_on:
+      - mongodb
+      - rabbitmq
+    env_file:
+      - .env
+  webhook-sender:
+    build:
+      context: .
+      dockerfile: apps/webhook-sender/Dockerfile
+    container_name: webhook-sender
+    hostname: ${WEBHOOK_SENDER_URL}
+    restart: on-failure
+    depends_on:
+      - rabbitmq
+    env_file:
+      - .env
+  mongodb:
     image: mongo:latest
     container_name: mongo
-    hostname: mongo
+    hostname: ${MONGO_URL}
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
@@ -12,6 +47,11 @@ services:
       MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
     ports:
       - ${MONGO_PORT}:27017
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:27017" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
     volumes:
       - .mongo/:/data/db
       - .docker/mongo/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
@@ -20,12 +60,17 @@ services:
       context: .docker/rabbit
       dockerfile: ./Dockerfile
     container_name: rabbitmq
-    hostname: rabbitmq
+    hostname: ${RABBITMQ_URL}
     environment:
       RABBITMQ_ERLANG_COOKIE: ${RABBITMQ_ERLANG_COOKIE}
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
       RABBITMQ_DEFAULT_VHOST: ${RABBITMQ_DEFAULT_VHOST}
     ports:
-      - 15672:15672
+      - ${RABBITMQ_MANAGEMENT_PORT}:15672
       - ${RABBITMQ_PORT}:5672
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:15672" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
