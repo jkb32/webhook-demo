@@ -9,7 +9,7 @@ export default class SubscriptionManagerService {
   }
 
   static async postSubscription(url: string, secret: string) {
-    return axios.post(`http://${baseUrl}/subscription`, {
+    return axios.post(`http://${baseUrl}/register`, {
       url,
       secret,
     });

@@ -6,11 +6,16 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 
-
 app.use(new SubscriptionController().router);
 
 app.get('/health-check', (req, res) => {
   res.send({ message: 'gateway-api works' });
+});
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+
+  res.status(err.statusCode || 500).send(err.statusMessage || 'Internal server error');
 });
 
 const port = process.env.port || 80;
