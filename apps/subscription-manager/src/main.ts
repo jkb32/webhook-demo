@@ -1,5 +1,5 @@
 import * as express from 'express';
-import RegisterController from './app/controllers/subscription-controller';
+import RegisterController from './app/controllers/register.controller';
 import { MongoService } from '@webhook-sender/mongodb';
 import { getChannel, setupRabbitMQConnection } from '@webhook-sender/queue';
 import TriggerController from './app/controllers/trigger.controller';

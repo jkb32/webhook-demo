@@ -4,7 +4,7 @@
 
 1. `npm install` to install dependencies
 2. `nx affected:build --all` to build application
-3. `docker compose up` to setup the containers and network
+3. `docker-compose up` to setup the containers and network
 
 # Test
 
